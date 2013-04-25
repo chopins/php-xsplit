@@ -1,0 +1,13 @@
+// $Id$
+// vim:ft=javascript
+
+// If your extension references something external, use ARG_WITH
+// ARG_WITH("xsplit", "for xsplit support", "no");
+
+// Otherwise, use ARG_ENABLE
+// ARG_ENABLE("xsplit", "enable xsplit support", "no");
+
+if (PHP_XSPLIT != "no") {
+  EXTENSION("xsplit", "xsplit.c");
+}
+
