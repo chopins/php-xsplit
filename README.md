@@ -36,8 +36,11 @@ $make install
 php.ini中可以设置以下参数：
 
 xsplit.allow_persisten = On
+
 xsplit.max_dicts = 5
+
 xsplit.max_persistent = 3
+
 xsplit.default_dict_file = /home/xdict
 
 xsplit.allow_persistent 是否允许加载持久词典
@@ -51,7 +54,9 @@ xsplit.default_dict_file 默认的词典，没有指定词典时会调用此词�
 源码中有一个utils目录，包含
 
 make_dict.php 提供命令行方式创建词典
+
 xsplit.php 一个简单的示例文件
+
 xdict_example.txt 一个文本词库的格式示例
 
 make_dict.php的使用例子如下：
@@ -66,6 +71,7 @@ bool xs_build (array $words, string $dict_file)
 
 
 string xs_simhash( array $tokens [, bool $rawoutput] )
+
 计算simhash。由于
 
 例子如下：
@@ -74,15 +80,23 @@ string xs_simhash( array $tokens [, bool $rawoutput] )
 $dict_file='dict.db';
 
 $dwords['美丽']=100;
+
 $dwords['蝴蝶']=100;
+
 $dwords['永远']=100;
+
 $dwords['心中']=100;
+
 $dwords['翩翩']=100;
+
 $dwords['飞舞']=100;
+
 $dwords['翩翩飞舞']=10;
 
 if(!xs_build($dwords, $dict_file)) {
+
     die('建立词典失败！');
+    
 }
 
 resource xs_open (string $dict_file bool $persistent?)
@@ -90,6 +104,7 @@ resource xs_open (string $dict_file bool $persistent?)
 打开一个词典文件，并返回一个resource类型的identifier。$persistent可以指定是否是持久化词典，持久化词典在这里可以理解为词典资源生命周期的不同，一般情况下$persistent=true或者默认缺省即可。在进行分词的时候，可以指定不同的词典。
 
 $dict_file_1 = 'xdcit.db';
+
 $dict_file_2 = 'mydict.db';
 
 $dict1 = xs_open($dict_file);
