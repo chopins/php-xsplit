@@ -14,6 +14,7 @@ xsplit是一个PHP扩展，提供基于MMSEG算法的分词功能。目前只在
 
 xsplit主要有以下几个函数：
 
+```
 bool xs_build ( array $words, string $dict_file )
 
 resource xs_open (string $dict_file [, bool $persistent])
@@ -26,15 +27,20 @@ string xs_simhash( array $tokens [, bool $rawoutput] )
 
 int xs_hdist（ string $simhash1, $string $simhash2)
 
+```
+
 安装过程与一般的PHP扩展安装一样
 
+```
 $phpize
 $./configure --with-php-config=/path/to/php-config
 $make
 $make install
+```
 
 php.ini中可以设置以下参数：
 
+```
 xsplit.allow_persisten = On
 
 xsplit.max_dicts = 5
@@ -50,32 +56,41 @@ xsplit.max_dicts 允许同时打开的最大词典数目
 xsplit.max_persistent 允许同时打开的最大持久词典数目
 
 xsplit.default_dict_file 默认的词典，没有指定词典时会调用此词典
+```
 
 源码中有一个utils目录，包含
 
+``
 make_dict.php 提供命令行方式创建词典
 
 xsplit.php 一个简单的示例文件
 
 xdict_example.txt 一个文本词库的格式示例
+```
 
 make_dict.php的使用例子如下：
 
+```
 $php make_dict.php ./xdict_example.txt ./xdict.db
+```
 
 文本词库的格式请参考xdict_example.txt
 
+```
 bool xs_build (array $words, string $dict_file)
+```
 
 从$words数组建立名称为$dict_file的词典，若成功则返回true。$words数组的格式请参考示例，key为词语，value为词频。
 
-
+```
 string xs_simhash( array $tokens [, bool $rawoutput] )
+```
 
 计算simhash。由于
 
 例子如下：
 
+```php
 <?php
 $dict_file='dict.db';
 
@@ -98,11 +113,14 @@ if(!xs_build($dwords, $dict_file)) {
     die('建立词典失败！');
     
 }
-
+```
+```
 resource xs_open (string $dict_file bool $persistent?)
+```
 
 打开一个词典文件，并返回一个resource类型的identifier。$persistent可以指定是否是持久化词典，持久化词典在这里可以理解为词典资源生命周期的不同，一般情况下$persistent=true或者默认缺省即可。在进行分词的时候，可以指定不同的词典。
 
+```php
 $dict_file_1 = 'xdcit.db';
 
 $dict_file_2 = 'mydict.db';
@@ -110,11 +128,15 @@ $dict_file_2 = 'mydict.db';
 $dict1 = xs_open($dict_file);
 
 xs_open($dict_file); 
+```
 
+```
 array xs_split ( string $text int $split_method = 1 ［, resource $dictionary_identifier ］ ? )
+```
 
 对文本进行分词，可以指定分词方法和词典。分词方法目前有两种，一个是MMSEG算法（默认），一个是正向最大匹配，分别用常量 XS_SPLIT_MMSEG和XS_SPLIT_MMFWD表示。返回值是一个数组，包含所有切分好的词语。如果不指定词典，最后一次打开的词典将被使用。
 
+```php
 <?php
 $text="那只美丽的蝴蝶永远在我心中翩翩飞舞着。";
 $dict_file = 'xdict.db';
@@ -134,9 +156,11 @@ XS_SEARCH_ALL_SIMPLE : 按照词典返回所有词语词频总和，一个INT型
 XS_SEARCH_ALL_DETAIL : 按照词典返回所有词典的词频，并以数组形式返回每一个词语的详细统计。
 
 XS_SEARCH_ALL_INDICT : 返回词典里的词语，可以去掉标点、特殊符号之类的，但是连续的数字和字母会默认自动返回（目前采用MMSEG算法，hard coding的，有需要可以改源码）。
+```
 
 如果不指定词典，最后一次打开的词典将被使用。
 
+```php
 <?php
 xs_open($dict_file);
 $text="那只美丽的蝴蝶永远在我心中翩翩飞舞着。";
@@ -149,16 +173,21 @@ $result=xs_search($text, XS_SEARCH_ALL_SIMPLE);
 var_dump($result);
 $result=xs_search($text, XS_SEARCH_ALL_DETAIL);
 var_dump($result);
+```
 
-
+```
 string xs_simhash( array $tokens [, bool $rawoutput] )
+```
 
 计算simhash。这里所有token权重都是1，$tokens的例子如array('在', '这个', '世界')。$rawoput默认为0，即返回simhash的hex string形式，如md5， sha1函数一样；如过$rawoput为真，返回一个8字节的字符串，这个字符串实际上是一个64 bits的整型数，uint64_t，在一些特殊情况下可以用到。
 
+```
 int xs_hdist（ string $simhash1, $string $simhash2)
+```
 
 计算汉明距离。
 
+```php
 <?php
 xs_open('xdict');
 $text1="那只美丽的蝴蝶永远在我心中翩翩飞舞着。";
@@ -179,3 +208,4 @@ echo decbin(hexdec($simhash1)), "\n";
 echo decbin(hexdec($simhash2)), "\n";
 
 echo "hamming distance is {$hamming_dist}\n";
+```
