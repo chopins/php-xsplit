@@ -82,6 +82,7 @@ bool xs_build (array $words, string $dict_file)
 
 从$words数组建立名称为$dict_file的词典，若成功则返回true。$words数组的格式请参考示例，key为词语，value为词频。
 
+
 ```
 string xs_simhash( array $tokens [, bool $rawoutput] )
 ```
@@ -89,6 +90,7 @@ string xs_simhash( array $tokens [, bool $rawoutput] )
 计算simhash。由于
 
 例子如下：
+
 
 ```php
 <?php
@@ -114,6 +116,7 @@ if(!xs_build($dwords, $dict_file)) {
     
 }
 ```
+
 ```
 resource xs_open (string $dict_file bool $persistent?)
 ```
@@ -144,9 +147,12 @@ $dict_res = xs_open($dict_file);
 $words = xs_split($text);  /* 此处没有指定词典资源，默认使用最后一次打开的词典 */
 
 $words1 = xs_split($text, XS_SPLIT_MMSEG, $dict_res);
+```
 
+```
 mixed xs_search ( string $text ［, int $search_method $dictionary_identifer ? ］ ) 基于双数组trie树提供的一些功能，$search_method有四个常量表示：
-
+```
+```
 XS_SEARCH_CP : darts的commonPrefixSearch封装，如果没有找到，返回false。
 
 XS_SEARCH_EM : darts的exactMatchSearch封装，如果没有找到，返回false。
